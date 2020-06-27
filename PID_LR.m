@@ -35,9 +35,9 @@ C = eye(6);
 
 D = zeros(6,3);
 
-ee = ss(A,B,C,D); % Espaço de Estados de malha aberta
+ee = ss(A,B,C,D); % Espaco de Estados de malha aberta
 
-fts = tf(ee); % Mudança para FTs
+fts = tf(ee); % Mudanca para FTs
 
 FT_T2_theta2dot = fts(6,3); % FT relacionando thetadot2 x T2
 
@@ -63,12 +63,12 @@ FTMF_PID = feedback(C_PID*FT_T2_theta2dot,1);
 %% Plots
 opt = stepDataOptions('StepAmplitude',0.1);
 stepplot(FTMF_PI,FTMF_PID,opt)
-title('Compara��o das respostas ao degrau - PID por LR')
+title('Comparativo das respostas ao degrau - PID por LR')
 xlabel('Tempo (s)')
 ylabel('Velocidade Angular (rad/s)')
 legend('PI','PID')
 
-%% Par�metros do Step
+%% Parametros do Step
 stepinfo(FTMF_PI)
 stepinfo(FTMF_PID)
 
