@@ -1,0 +1,243 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html xmlns:mwsh="http://www.mathworks.com/namespace/mcode/v1/syntaxhighlight.dtd">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   
+      <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      -->
+      <title>Learning PID Tuning III: Performance Index Optimization</title>
+      <meta name="generator" content="MATLAB 7.5">
+      <meta name="date" content="2008-02-08">
+      <meta name="m-file" content="optimalpidtuning"><style>
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head>
+   <body>
+      <div class="content">
+         <h1>Learning PID Tuning III: Performance Index Optimization</h1>
+         <introduction>
+            <p>Most PID tuning rules are based on first-order plus time delay assumption of the plant hence cannot ensure the best control
+               performance. Using mordern optimization techniques, it is possible to tune a PID controller based on the actual transfer function
+               of the plant to optimize the closed-loop performance.
+            </p>
+         </introduction>
+         <h2>Contents</h2>
+         <div>
+            <ul>
+               <li><a href="#1">Performance Indices</a></li>
+               <li><a href="#2">Initial Controller Parameters</a></li>
+               <li><a href="#3">Example 1:</a></li>
+               <li><a href="#4">Example 2:</a></li>
+            </ul>
+         </div>
+         <h2>Performance Indices<a name="1"></a></h2>
+         <p>The performance indices used here are: 1. The Integral of Squared Error (ISE)</p>
+         <p><img vspace="5" hspace="5" src="optimalpidtuning_eq15604.png"> </p>
+         <p>2. The Integral of Absolute Error (IAE)</p>
+         <p><img vspace="5" hspace="5" src="optimalpidtuning_eq15709.png"> </p>
+         <p>3. The Integral of Time Multiply Squared Error (ITSE)</p>
+         <p><img vspace="5" hspace="5" src="optimalpidtuning_eq16912.png"> </p>
+         <p>4. The Integral of Time multiply Absolute Error (ITAE)</p>
+         <p><img vspace="5" hspace="5" src="optimalpidtuning_eq17017.png"> </p>
+         <h2>Initial Controller Parameters<a name="2"></a></h2>
+         <p>Like mose optimization problems, the control performance optimization is non-convext, hence a trap of local minimum is inevitable.
+            To counteract this, the initial controller parameters is set to be those determined by one of existing tuning rules. In this
+            way, the controller derived is at least better than that determined by the tuning method. <a href="http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=18561&amp;objectType=FILE">The stability margin based Ziegler-Nichols</a> is used for initial controller parameters and for performance comparison.
+         </p>
+         <h2>Example 1:<a name="3"></a></h2>
+         <p>Consider a 4th-order system:</p>
+         <p><img vspace="5" hspace="5" src="optimalpidtuning_eq14275.png"> </p>
+         <p>Compare closed-loop performance of PID controllers designed with different performance indices.</p><pre class="codeinput">G=zpk([],[-3 -2 -1 0],1);   <span class="comment">% The plant</span>
+C1=optimPID(G,3,1);   <span class="comment">% PID-Control, ISE index</span>
+C2=optimPID(G,3,2);   <span class="comment">% PID-Control, IAE index</span>
+C3=optimPID(G,3,3);   <span class="comment">% PID-Control, ITSE index</span>
+C4=optimPID(G,3,4);   <span class="comment">% PID-Control, ITAE index</span>
+K=znpidtuning(G,3);   <span class="comment">% Ziegler-Nichols stability margin tuning</span>
+t=0:0.1:30;
+y1=step(feedback(C1*G,1),t); <span class="comment">%Closed-loop step response of C1</span>
+y2=step(feedback(C2*G,1),t); <span class="comment">%Closed-loop step response of C2</span>
+y3=step(feedback(C3*G,1),t); <span class="comment">%Closed-loop step response of C3</span>
+y4=step(feedback(C4*G,1),t); <span class="comment">%Closed-loop step response of C4</span>
+<span class="comment">%Closed-loop step response of K</span>
+y=step(feedback(G*(K.kc*(1+tf(1,[K.ti 0])+tf([K.td 0],1))),1),t);
+plot(t,y1,t,y2,t,y3,t,y4,t,y,<span class="string">'--'</span>,<span class="string">'Linewidth'</span>,2)
+legend(<span class="string">'ISE'</span>,<span class="string">'IAE'</span>,<span class="string">'ITSE'</span>,<span class="string">'ITAE'</span>,<span class="string">'Z-N'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+grid
+
+<span class="comment">% The comparison shows that the ITSE index leads to the best PID</span>
+<span class="comment">% controller.</span>
+</pre><img vspace="5" hspace="5" src="optimalpidtuning_01.png"> <h2>Example 2:<a name="4"></a></h2>
+         <p>A 4th-order system with a repeated pole.</p>
+         <p><img vspace="5" hspace="5" src="optimalpidtuning_eq8507.png"> </p>
+         <p>Compare closed-loop performance of PI controllers.</p><pre class="codeinput">G=tf(1,[1 4 6 4 1]);   <span class="comment">% The plant</span>
+C1=optimPID(G,2,1);   <span class="comment">% PID-Control, ISE index</span>
+C2=optimPID(G,2,2);   <span class="comment">% PID-Control, IAE index</span>
+C3=optimPID(G,2,3);   <span class="comment">% PID-Control, ITSE index</span>
+C4=optimPID(G,2,4);   <span class="comment">% PID-Control, ITAE index</span>
+K=znpidtuning(G,2);   <span class="comment">% Ziegler-Nichols stability margin tuning</span>
+t=0:0.1:40;
+y1=step(feedback(C1*G,1),t); <span class="comment">%Closed-loop step response of C1</span>
+y2=step(feedback(C2*G,1),t); <span class="comment">%Closed-loop step response of C2</span>
+y3=step(feedback(C3*G,1),t); <span class="comment">%Closed-loop step response of C3</span>
+y4=step(feedback(C4*G,1),t); <span class="comment">%Closed-loop step response of C4</span>
+<span class="comment">%Closed-loop step response of K</span>
+y=step(feedback(G*(K.kc*(1+tf(1,[K.ti 0]))),1),t);
+plot(t,y1,t,y2,t,y3,t,y4,t,y,<span class="string">'--'</span>,<span class="string">'Linewidth'</span>,2)
+legend(<span class="string">'ISE'</span>,<span class="string">'IAE'</span>,<span class="string">'ITSE'</span>,<span class="string">'ITAE'</span>,<span class="string">'Z-N'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+grid
+
+<span class="comment">% This time the ITAE index gives the best design.</span>
+</pre><img vspace="5" hspace="5" src="optimalpidtuning_02.png"> <p class="footer"><br>
+            Published with MATLAB&reg; 7.5<br></p>
+      </div>
+      <!--
+##### SOURCE BEGIN #####
+%% Learning PID Tuning III: Performance Index Optimization
+% Most PID tuning rules are based on first-order plus time delay
+% assumption of the plant hence cannot ensure the best control performance.
+% Using mordern optimization techniques, it is possible to tune a PID
+% controller based on the actual transfer function of the plant to optimize
+% the closed-loop performance.
+
+%% Performance Indices
+% The performance indices used here are:
+% 1. The Integral of Squared Error (ISE)
+%
+% $$I_1 = \int_0^\infty e^2(t) dt$$
+%
+% 2. The Integral of Absolute Error (IAE)
+%
+% $$I_2 = \int_0^\infty |e(t)| dt$$
+%
+% 3. The Integral of Time Multiply Squared Error (ITSE)
+%
+% $$I_3 = \int_0^\infty te^2(t) dt$$
+%
+% 4. The Integral of Time multiply Absolute Error (ITAE)
+%
+% $$I_4 = \int_0^\infty t|e(t)| dt$$
+%
+
+%% Initial Controller Parameters
+% Like mose optimization problems, the control performance optimization is
+% non-convext, hence a trap of local minimum is inevitable. To counteract
+% this, the initial controller parameters is set to be those determined by
+% one of existing tuning rules. In this way, the controller derived is at
+% least better than that determined by the tuning method.
+% <http://www.mathworks.com/matlabcentral/fileexchange/loadFile.do?objectId=18561&objectType=FILE The stability margin based Ziegler-Nichols> 
+% is used for initial controller parameters and for performance comparison.
+
+%% Example 1: 
+% Consider a 4th-order system:
+%
+% $$G=\frac{1}{s(s+1)(s+2)(s+3)}$$
+%
+% Compare closed-loop performance of PID controllers designed with
+% different performance indices. 
+G=zpk([],[-3 -2 -1 0],1);   % The plant
+C1=optimPID(G,3,1);   % PID-Control, ISE index
+C2=optimPID(G,3,2);   % PID-Control, IAE index
+C3=optimPID(G,3,3);   % PID-Control, ITSE index
+C4=optimPID(G,3,4);   % PID-Control, ITAE index
+K=znpidtuning(G,3);   % Ziegler-Nichols stability margin tuning
+t=0:0.1:30;
+y1=step(feedback(C1*G,1),t); %Closed-loop step response of C1
+y2=step(feedback(C2*G,1),t); %Closed-loop step response of C2
+y3=step(feedback(C3*G,1),t); %Closed-loop step response of C3
+y4=step(feedback(C4*G,1),t); %Closed-loop step response of C4
+%Closed-loop step response of K
+y=step(feedback(G*(K.kc*(1+tf(1,[K.ti 0])+tf([K.td 0],1))),1),t);
+plot(t,y1,t,y2,t,y3,t,y4,t,y,'REPLACE_WITH_DASH_DASH','Linewidth',2)
+legend('ISE','IAE','ITSE','ITAE','Z-N','Location','Best')
+grid
+
+% The comparison shows that the ITSE index leads to the best PID
+% controller.
+
+%% Example 2:
+% A 4th-order system with a repeated pole.
+%
+% $$G(s)=\frac{1}{(s+1)^4}$$
+%
+% Compare closed-loop performance of PI controllers.
+G=tf(1,[1 4 6 4 1]);   % The plant
+C1=optimPID(G,2,1);   % PID-Control, ISE index
+C2=optimPID(G,2,2);   % PID-Control, IAE index
+C3=optimPID(G,2,3);   % PID-Control, ITSE index
+C4=optimPID(G,2,4);   % PID-Control, ITAE index
+K=znpidtuning(G,2);   % Ziegler-Nichols stability margin tuning
+t=0:0.1:40;
+y1=step(feedback(C1*G,1),t); %Closed-loop step response of C1
+y2=step(feedback(C2*G,1),t); %Closed-loop step response of C2
+y3=step(feedback(C3*G,1),t); %Closed-loop step response of C3
+y4=step(feedback(C4*G,1),t); %Closed-loop step response of C4
+%Closed-loop step response of K
+y=step(feedback(G*(K.kc*(1+tf(1,[K.ti 0]))),1),t);
+plot(t,y1,t,y2,t,y3,t,y4,t,y,'REPLACE_WITH_DASH_DASH','Linewidth',2)
+legend('ISE','IAE','ITSE','ITAE','Z-N','Location','Best')
+grid
+
+% This time the ITAE index gives the best design.
+
+
+##### SOURCE END #####
+-->
+   </body>
+</html>

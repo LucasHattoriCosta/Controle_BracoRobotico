@@ -3,7 +3,7 @@
 clear; close all; clc;
 
 %%% Deixa os eixos em LaTeX
-set(groot, 'defaultLegendInterpreter','latex');
+set(groot, 'defaultTextInterpreter','latex');
 
 %% Definindo FT's
 
@@ -35,30 +35,31 @@ C = eye(6);
 
 D = zeros(6,3);
 
-ee = ss(A,B,C,D); % Espaço de Estados de malha aberta
+ee = ss(A,B,C,D); % Espaco de Estados de malha aberta
 
-fts = tf(ee); % Mudança para FTs
+fts = tf(ee); % Mudanca para FTs
 
 FT_T2_theta2dot = fts(6,3); % FT relacionando thetadot2 x T2
 
 %%% Consertando FT1
 
 [num,den]=tfdata(FT_T2_theta2dot,'v');
-num2 = [num 0];
-den2 = [den 0];
-FT_T2_theta2dot = tf(num2,den2);
+FT_num = [num 0];
+FT_den = [den 0];
+FT_T2_theta2dot = tf(FT_num,FT_den);
 
-%% Ganhos calculados no controlSystemDesigner
+%% Calculando num e den ITAE
 
-C_P = 1.6025;
-C_PI = tf([63.049 63.049*5.643], [1 0]);
-C_PID = tf([0.86076 0.86076*57.16 0.86076*908.6], [1 0]);
+syms s KP KD KI;
 
-figure
+KPID_num = (KD*s^2+KP*s+KI);
+KPID_den = s;
 
-
-
-
-
-
-
+Numerador = FT_num * KPID_num;
+expand(Numerador);
+collect(Numerador)
+F_den = FT_den * KPID_den;
+expand(F_den);
+Denominador =F_den + Numerador;
+expand(Denominador);
+collect(Denominador)
