@@ -66,4 +66,4 @@ FT_T2_theta2 = fts(5,3); % FT relacionando theta2 x T2
 [num,den]=tfdata(FT_T2_theta2 ,'v');
 num2 = [num 0];
 den2 = [den 0];
-FT_T2_theta2  = tf(num2,den2);
+FT_T2_theta2dot = tf(num2,den2);
