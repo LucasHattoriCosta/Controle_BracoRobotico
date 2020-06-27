@@ -35,17 +35,20 @@ ee = ss(A,B,C,D); % Espaço de Estados de malha aberta
 
 fts = tf(ee); % Mudança para FTs
 
-FT1 = fts(1,1); % FT relacionando F x x
+FT1 = fts(6,3); % FT relacionando thetadot2 x T2
 
-FT2 = fts(3,2); % FT relacionando T1 x theta1
+%%% Consertando FT1
 
-FT3 = fts(5,3); % FT relacionando T2 x theta2
+[num,den]=tfdata(FT1,'v');
+num2 = [num 0];
+den2 = [den 0];
+FT1 = tf(num2,den2);
 
 %%% Para FT1
 
-Kd = 2.7413e6;
-Kp = 2*Kd;
-Ki = 2*Kd;
+Kd = 1;
+Kp = 1;
+Ki = 1;
 
 Num_K = [Kd Kp Ki];
 Den_K = [1 0];
@@ -54,3 +57,4 @@ K = tf(Num_K,Den_K);
 %%% FTMF
 FTMF = feedback(K*FT1,1);
 step(FTMF)
+stepinfo(FTMF)
