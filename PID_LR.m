@@ -1,11 +1,12 @@
-%% De sempre
+%% Start
+
+clear; close all; clc;
 
 %%% Deixa os eixos em LaTeX
 set(groot, 'defaultLegendInterpreter','latex');
 
-%% Definindo a FT estudada
+%% Definindo FT's
 
-clear; close all; clc;
 %%% Parametros
 m = 2;
 Mbase = 6;
@@ -47,23 +48,13 @@ num2 = [num 0];
 den2 = [den 0];
 FT_T2_theta2dot = tf(num2,den2);
 
-%% Step Zaigler Naicous
+%% Ganhos calculados no controlSystemDesigner
 
-figure
-step(FT_T2_theta2dot)
+C_P = 1.6025;
+C_PI = tf([63.049 63.049*5.643], [1 0]);
+C_PID = tf([63.049 63.049*5.643], [1 0]);
+0.86076 (s^2 + 57.16s + 908.6)
 
-%% Rlocus Zaigler Naicous
 
-figure
-rlocus(feedback(FT_T2_theta2dot, 1))
 
-%% Pegando FT de T2 por theta2
 
-FT_T2_theta2 = fts(5,3); % FT relacionando theta2 x T2
-
-%%% Consertando FT2
-
-[num,den]=tfdata(FT_T2_theta2 ,'v');
-num2 = [num 0];
-den2 = [den 0];
-FT_T2_theta2dot = tf(num2,den2);
