@@ -55,15 +55,6 @@ C_PI = tf([63.049 63.049*5.643], [1 0]);
 C_PID = tf([0.86076 0.86076*57.16 0.86076*908.6], [1 0]);
 
 figure
-% step(feedback(FT_T2_theta2dot * C_P, 1))
-% hold on
-step(feedback(FT_T2_theta2dot * C_PI_LR, 1))
-hold on
-step(feedback(FT_T2_theta2dot * C_PID_LR, 1))
-legend('pi','pid')
-
-
-
 
 
 
