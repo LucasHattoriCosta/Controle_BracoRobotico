@@ -62,12 +62,12 @@ FTMF_PI = feedback(C_PI*FT_T2_theta2dot,1);
 FTMF_PID = feedback(C_PID*FT_T2_theta2dot,1);
 
 %% Plots
-opt = stepDataOptions('StepAmplitude',0.1);
+opt = stepDataOptions('StepAmplitude',1);
 stepplot(FTMF_PI,FTMF_PID,opt)
-title('Comparativo das respostas ao degrau - PID por LR')
+title({'Comparativo das respostas ao degrau - PID por LR'}, 'Fontsize', 16)
 xlabel('Tempo (s)')
 ylabel('Velocidade Angular (rad/s)')
-legend('PI','PID')
+legend({'PI','PID'}, 'Fontsize', 14)
 
 %% Parametros do Step
 stepinfo(FTMF_PI)
