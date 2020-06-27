@@ -6,7 +6,6 @@ set(groot, 'defaultLegendInterpreter','latex');
 %% Definindo a FT estudada
 
 clear; close all; clc;
-
 %%% Parametros
 m = 2;
 Mbase = 6;
@@ -37,9 +36,16 @@ D = zeros(6,3);
 
 ee = ss(A,B,C,D); % Espaço de Estados de malha aberta
 
-fts = tf(ee);
+fts = tf(ee); % Mudança para FTs
 
-FT_T2_theta2dot = fts(6, 3);
+FT_T2_theta2dot = fts(6,3); % FT relacionando thetadot2 x T2
+
+%%% Consertando FT1
+
+[num,den]=tfdata(FT_T2_theta2dot,'v');
+num2 = [num 0];
+den2 = [den 0];
+FT_T2_theta2dot = tf(num2,den2);
 
 %% Step Zaigler Naicous
 
