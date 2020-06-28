@@ -51,9 +51,9 @@ FT_T2_theta2dot = tf(num2,den2);
 %% Ganhos calculados por Alocação de Polos
 
 %%% Controlador PID
-Kp_PID = 59.28900391;
-Ki_PID = 130.86352027;
-Kd_PID = 2.33305841;
+Kp_PID = 50.77;
+Ki_PID = 136.3;
+Kd_PID = 1.31;
 C_PID = tf([Kd_PID Kp_PID Ki_PID],[1 0]);
  
 %% FTMF
@@ -63,7 +63,7 @@ FTMF_PID = feedback(C_PID*FT_T2_theta2dot,1);
 figure
 opt = stepDataOptions('StepAmplitude',1);
 step(FTMF_PID,opt)
-title({'Comparativo das respostas ao degrau - PID por AP'}, 'Fontsize', 16)
+title({'Resposta ao degrau da quinta iteração - PID por AP'}, 'Fontsize', 16)
 xlabel('Tempo')
 ylabel('Velocidade Angular (rad/s)')
 
