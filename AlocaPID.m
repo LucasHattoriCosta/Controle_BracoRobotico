@@ -60,6 +60,7 @@ C_PID = tf([Kd_PID Kp_PID Ki_PID],[1 0]);
 FTMF_PID = feedback(C_PID*FT_T2_theta2dot,1);
 
 %% Plots
+figure
 opt = stepDataOptions('StepAmplitude',1);
 step(FTMF_PID,opt)
 title({'Comparativo das respostas ao degrau - PID por AP'}, 'Fontsize', 16)
@@ -71,3 +72,23 @@ stepinfo(FTMF_PID)
 [s,t] = step(FTMF_PID,opt);
 RP = 1-s(end);
 disp(strcat('RP = ',num2str(RP)))
+
+%% Plots Juntos
+Kp_ar = [22.38 15.82 28.13 26.99 50.77 59.29];
+Ki_ar = [57.62 47.66 67.92 63.64 136.3 130.86];
+Kd_ar = [1.01 0.53 1.44 1.55 1.31 2.33];
+
+figure
+hold on
+for i=1:6
+    K_aux = tf([Kd_ar(i) Kp_ar(i) Ki_ar(i)],[1 0]);
+    FTMF_aux = feedback(K_aux*FT_T2_theta2dot,1);
+    step(FTMF_aux,opt)
+end
+[s2,t2] = step(FTMF_aux,opt);
+ref = ones(1,size(t2,1));
+plot(t2,ref,'Color',[169 169 169]/255)
+legend('Conjunto 1','Conjunto 2','Conjunto 3','Conjunto 4','Conjunto 5','Conjunto 6')
+title({'Comparativo das respostas ao degrau - PID por AP'}, 'Fontsize', 16)
+xlabel('Tempo')
+ylabel('Velocidade Angular (rad/s)')
