@@ -25,8 +25,18 @@ B = np.array([
 
 # Outro role 
 
-w = 3
+w = 2
 
-# Pra achar KI, na eq de s^2
-KI = np.linalg.lstsq(np.array([[339/2000]]), np.array([[8.68*(w**5) - 1663/2000]]), rcond=None)[0]
-print(KI)
+for w in np.linspace(0.00001,1,100):
+    # Pra achar KI, na eq de s^2
+    KI = np.linalg.lstsq(np.array([[339/2000]]), np.array([[8.68*(w**5) - 1663/2000]]), rcond=None)[0]
+
+    # `Pra achar KP na eq de s^3`
+    A = np.array([[339/2000]])
+    B = np.array([
+        [11.58*(w**4) - 1168 - 238.1*KI[0][0]]
+    ])
+    KP = np.linalg.lstsq(A,B, rcond=None)[0]
+
+    if KP >0 and KI >0:
+        print(KP, KI)
