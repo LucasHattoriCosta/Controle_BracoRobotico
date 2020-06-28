@@ -1,4 +1,4 @@
-clear; close all; clc;
+clear; close all; clc
 
 %%% Deixa os eixos em LaTeX
 set(groot, 'defaultLegendInterpreter','latex');
@@ -35,9 +35,9 @@ FT1 = tf(num2,den2);
 
 cont = 1;
 lastcont = 1;
-Kd = 0.1:0.05:1.0;%a
-Kp = 25:0.5:35;%b
-Ki = 650:2:850;%c
+Kd = 0.0:0.01:0.1;%a
+Kp = 55:5:65;%b
+Ki = 850:20:1250;%c
 
 for a = 1:length(Kd)
     for b = 1:length(Kp)
@@ -69,6 +69,9 @@ for a = 1:length(Kd)
     end
 end
 ResultsOrd = sortrows(Results,4);
-                
-          
-    
+Kd = ResultsOrd(1,1);
+Kp = ResultsOrd(1,2);
+Ki = ResultsOrd(1,3);
+PID = pid(Kp,Ki,Kd);
+FTMF_ITAE = (feedback(PID*FT1,1));
+step(FTMF_ITAE)
