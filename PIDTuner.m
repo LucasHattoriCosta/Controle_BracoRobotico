@@ -66,8 +66,9 @@ FTMF_PI = feedback(C_PI*FT_T2_theta2dot,1);
 FTMF_PID = feedback(C_PID*FT_T2_theta2dot,1);
 
 %% Plots
+t=0:0.001:1.5;
 opt = stepDataOptions('StepAmplitude',1);
-stepplot(FTMF_PI,FTMF_PID,opt)
+stepplot(FTMF_PI,FTMF_PID,opt,t)
 title({'Comparativo das respostas ao degrau - PID por PIDTuner'}, 'Fontsize', 16)
 xlabel('Tempo')
 ylabel('Velocidade Angular (rad/s)')
@@ -76,3 +77,9 @@ legend({'PI','PID'}, 'Fontsize', 14)
 %% Parametros do Step
 stepinfo(FTMF_PI)
 stepinfo(FTMF_PID)
+[s1,taux1]=step(FTMF_PI,t);
+RP_PI = abs(1 - s1(end));
+disp(strcat('Erro em RP (PI) = ',num2str(RP_PI)))
+[s2,taux2]=step(FTMF_PID,t);
+RP_PID = abs(1 - s2(end));
+disp(strcat('Erro em RP (PID) = ',num2str(RP_PID)))
