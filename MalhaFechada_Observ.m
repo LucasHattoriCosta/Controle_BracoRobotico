@@ -182,46 +182,43 @@ legend('Erro em $\dot{x}$','Erro em $\dot{\theta_1}$','Erro em $\dot{\theta_2}$'
 %%% Descomentar para ver o video do LQ
 % x = x_LQ;
 
-% %%% Vídeo da Animação
-% figure
-% xA = x(1,:);
-% yA = zeros(1,length(xA));
-% yA = yA + 2;
-% xB = xA + L*sin(x(3,:));
-% yB = yA - L*cos(x(3,:));
-% xC = xB + L*sin(x(5,:));
-% yC = yB - L*cos(x(5,:));
-% n=length(xA);
-% v = VideoWriter('C:\Users\Lucas Paiva\Documents\USP\Trabalhos\Controle\T2\Imagens\GIF_OBS.avi');
-% v.Quality = 95;
-% v.FrameRate = 1/Dt;
-% open(v);
-% for i=1:n
-% Pxa = [ xA(i), xB(i) ];
-% Pya = [ yA(i), yB(i) ];
-% Pxb = [ xB(i), xC(i) ];
-% Pyb = [ yB(i), yC(i) ];
-% PC1 = [ xA(i)+0.15 , xA(i)+0.15];
-% PC2 = [ yA(i)+0.03 , yA(i)-0.03];
-% PC3 = [ xA(i)+0.15 , xA(i)-0.15];
-% PC4 = [ yA(i)+0.03 , yA(i)+0.03];
-% PC5 = [ xA(i)-0.15 , xA(i)-0.15];
-% PC6 = [ yA(i)+0.03 , yA(i)-0.03];
-% PC7 = [ xA(i)+0.15 , xA(i)-0.15];
-% PC8 = [ yA(i)-0.03 , yA(i)-0.03];
-% plot(xA, yA, xA(i),yA(i),'o', xB, yB, xB(i),yB(i),'o', xC, yC, xC(i),yC(i),'o')
-% axis([-0.6 0.6 0.9 2.1])
-% grid on
-% line(Pxa,Pya)
-% line(Pxb,Pyb)
-% line(PC1, PC2)
-% line(PC3, PC4)
-% line(PC5, PC6)
-% line(PC7, PC8)
-% frame = getframe(gcf);
-% writeVideo(v,frame);
-% end
-% close(v)
-
-r1 = reg(ee,K,Ko);
-r2 = reg(ee,Klq,Ko_lq);
+%%% Vídeo da Animação
+figure
+xA = x(1,:);
+yA = zeros(1,length(xA));
+yA = yA + 2;
+xB = xA + L*sin(x(3,:));
+yB = yA - L*cos(x(3,:));
+xC = xB + L*sin(x(5,:));
+yC = yB - L*cos(x(5,:));
+n=length(xA);
+v = VideoWriter('C:\Users\Lucas Paiva\Documents\USP\Trabalhos\Controle\T2\Imagens\GIF_OBS.avi');
+v.Quality = 95;
+v.FrameRate = 1/Dt;
+open(v);
+for i=1:n
+Pxa = [ xA(i), xB(i) ];
+Pya = [ yA(i), yB(i) ];
+Pxb = [ xB(i), xC(i) ];
+Pyb = [ yB(i), yC(i) ];
+PC1 = [ xA(i)+0.15 , xA(i)+0.15];
+PC2 = [ yA(i)+0.03 , yA(i)-0.03];
+PC3 = [ xA(i)+0.15 , xA(i)-0.15];
+PC4 = [ yA(i)+0.03 , yA(i)+0.03];
+PC5 = [ xA(i)-0.15 , xA(i)-0.15];
+PC6 = [ yA(i)+0.03 , yA(i)-0.03];
+PC7 = [ xA(i)+0.15 , xA(i)-0.15];
+PC8 = [ yA(i)-0.03 , yA(i)-0.03];
+plot(xA, yA, xA(i),yA(i),'o', xB, yB, xB(i),yB(i),'o', xC, yC, xC(i),yC(i),'o')
+axis([-0.6 0.6 0.9 2.1])
+grid on
+line(Pxa,Pya)
+line(Pxb,Pyb)
+line(PC1, PC2)
+line(PC3, PC4)
+line(PC5, PC6)
+line(PC7, PC8)
+frame = getframe(gcf);
+writeVideo(v,frame);
+end
+close(v)
