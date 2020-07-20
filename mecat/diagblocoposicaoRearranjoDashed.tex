@@ -1,0 +1,31 @@
+\begin{tikzpicture}[auto, node distance=2.2cm,>=latex']
+\node [input, name=input] {};
+%\node [block, right of=input, label={[above,align=center]{{\smallsize Potenciômetro}}}] (ktac1) {$K_{pot2}$};
+\node [sum, right of=input] (sum) {$+$};
+
+\node [block, right of=sum, label={[above,align=center]{{\small Potenciômetro}}}] (ktac1) {$K_{pot}$};
+
+\node [block, right of=ktac1, label={[above,align=center]{{\small Pré-Amp}}}] (controller) {$K$};
+\node [block, right of=controller, label={[above,align=center]{{\small Amp Pot}}}] (poweramp) {$\frac{K_1}{s+a}$};
+\node [block, right of=poweramp, label={[above,align=center]{{\small Motor,Carga}}}] (system) {$\frac{K_m}{s(s+a_m)}$};
+\node [block, right of=system,label={[above,align=center]{{\small Engrenagens}}}] (engrenagens) {$K_g$};
+\node [input, below of=poweramp] (ktac2) {};
+\node [output, right of=engrenagens] (output) {};
+\node[draw,dashed,color=gray!70, inner sep=15pt,thick,fit=(poweramp) (system) (engrenagens), label={[above,align=center]{{$G_\theta(s)$}}}] (F1){};
+\node[draw,color=gray!70, dashed,inner sep=15pt,thick,fit=(ktac1) (controller), label={[above,align=center]{{$H_\theta(s)$}}}] (F2){};
+%   Conexao de blocos
+\draw [draw,->] (input) -- node {$\Theta_i(s)$} (sum);
+%\draw [->] (ktac) -- node {$V_i(s)$} (sum);
+\draw [->] (sum) -- node {$\Theta_e(s)$} (ktac1);
+\draw [->] (ktac1) -- node {$V_e(s)$} (controller);
+\draw [->] (controller) -- node {$V_p(s)$} (poweramp);
+\draw [->] (poweramp) -- node {$E_a(s)$} (system);
+\draw [->] (system) -- node {$\Theta_m(s)$} (engrenagens);
+\draw [->] (engrenagens) -- node [name=omegao] {$\Theta_o(s)$} (output);
+
+%\draw [->] (omegao) |- node [above,pos=0.79] {} (ktac2) ;
+%\draw [->] (ktac2) -| node [pos=0.95] {$-$} node [near end] {} (sum);
+
+\draw [-] (omegao) |- node [above,pos=0.79] {} (ktac2) ;
+\draw [->] (ktac2) -| node [pos=0.95] {$-$} node [near end] {} (sum);
+\end{tikzpicture}

@@ -1,0 +1,1087 @@
+\documentclass[10pt]{article}
+
+% Use of Lucida Bright 
+% Uncomment if Computer Modern
+%\usepackage[lucidasmallscale]{lucimatx}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+\usepackage[T1]{fontenc}
+
+\usepackage{tabularx,vmargin}
+\setpapersize{A4} % Vmargin commands
+\setmarginsrb{10mm}{10mm}{10mm}{10mm}{0pt}{10mm}{0pt}{10mm}
+%\restylefloat{figure}  % comandos de float.sty para permitir parametro H
+
+\newcommand{\single}{\footnotesize\renewcommand{\baselinestretch}{0.90}\normalsize}
+\newcommand{\double}{\footnotesize\renewcommand{\baselinestretch}{1.0}\normalsize}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{float}
+
+%\renewcommand{\labelenumi}{{\sf\bfseries [Q. \theenumi]}}
+
+% comment unused packages below
+%\usepackage{color}
+%\pdfoutput=0 % uncomment this to run PDFTeX in TeX mode
+\usepackage{ifpdf}
+%\ifx\pdftexversion\undefined %if using TeX
+%  \usepackage{graphicx}
+%\else %if using PDFTeX
+%  \usepackage[pdftex]{graphicx}
+%\fi
+%\ifpdf %if using PDFTeX in PDF mode
+%  \DeclareGraphicsExtensions{.pdf,.png,.mps}
+  \usepackage{pgf}
+  \usepackage{tikz}
+%\else %if using TeX or PDFTeX in TeX mode
+  \usepackage{graphicx}
+  \DeclareGraphicsExtensions{.eps,.bmp}
+  \DeclareGraphicsRule{.emf}{bmp}{}{}% declare EMF filename extension
+  \DeclareGraphicsRule{.png}{bmp}{}{}% declare PNG filename extension
+  \usepackage{pgf}
+  \usepackage{tikz}
+  \usepackage{pstricks}%variant: \usepackage{pst-all}
+%\fi
+
+%\usepackage{epic,bez123}
+\usepackage{float}
+
+\usepackage{array}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}{@{}m{0pt}@{}}
+
+\usepackage{wrapfig}% package for wrapfigure environment
+
+\newcommand{\espacomeio}{\vspace*{0.5cm}}
+\newcommand{\espacoum}{\vspace*{1.0cm}}
+\newcommand{\espacodois}{\vspace*{2.0cm}}
+\newcommand{\espacotres}{\vspace*{3.0cm}}
+\newcommand{\espacoquatro}{\vspace*{4.0cm}}
+\newcommand{\espacocinco}{\vspace*{5.0cm}}
+
+\usepackage[UKenglish]{isodate}
+%\usepackage{draft}
+
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{}
+%\fancyhead[C]{\framebox{DRAFT - \today}}
+\fancyhead[C]{}
+\fancyhead[R]{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage\ of \pageref{LastPage}}
+\fancyfoot[R]{VISTO:\rule{2cm}{0.5pt}}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\footrulewidth}{0.0pt}
+
+%%%%%%%%%%%%%% TIKZ
+
+\usepackage{tikz}
+\usetikzlibrary{calc,patterns,decorations.pathmorphing,arrows.meta,decorations.markings,shapes,fit,arrows}
+% Definition of blocks:
+\tikzstyle{block} = [draw, fill=white, rectangle, 
+minimum height=4em, minimum width=3em]
+\tikzstyle{sum} = [draw, fill=white, circle, node distance=2cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{pinstyle} = [pin edge={to-,thin,black}]
+
+\usepackage{amsthm}
+\theoremstyle{plain}
+%\usepackage{thmbox}
+\usepackage[pdftex,color,outerbars]{changebar}
+\newtheorem{exercicio}{Para você fazer}
+%\newenvironment{cexercicio}[1][]{\begin{changebar}\if\relax\detokenize{#1}\relax\begin{exercicio}\else
+%			\begin{exercicio}[#1]\fi}
+%			{\end{exercicio}\end{changebar}}
+\newenvironment{cexercicio}[1][]{\if\relax\detokenize{#1}\relax\begin{exercicio}\else
+			\begin{exercicio}[#1]\fi}
+			{\end{exercicio}}
+		
+\usepackage{afterpage}
+
+\begin{document}
+
+\vspace*{-1cm}
+
+\begin{center}
+	{\bfseries\Large PMR3404 Controle I - Experiência 1:
+		             Matlab, Python Control System Toolbox, Controladores PID}
+\end{center}	
+
+\begin{center}
+\begin{tabular}{| p{9cm}  p{2.5cm}  p{1.7cm}| M{2.5cm} |} \hline &&& \\
+	& & & {\bf NOTA} \\ [0pt]
+	{\bf Alunos do grupo} & & & \\ [5pt]
+	1. Nome: \hrulefill & NUSP: \hrulefill & Turma: \hrulefill &  \\ [10pt]
+	2. Nome: \hrulefill & NUSP: \hrulefill & Turma: \hrulefill &  \\ [10pt]
+	3. Nome: \hrulefill & NUSP: \hrulefill & Turma: \hrulefill &  \\ [10pt] 
+	Data: \rule{4mm}{0.5pt} /\rule{4mm}{0.5pt} /\rule{4mm}{0.5pt} \hspace*{20pt} Reposição? (\;\;\;) S (\;\;\;) N & & & \\ [10pt] \hline
+\end{tabular}
+\end{center}
+
+\single
+\setlength{\parskip}{2pt}
+
+\section{Entregas do relatório}
+
+Esse texto é uma combinação de apostila, roteiro experimental e espaços
+do tipo formulário para desenvolver as respostas e também inserir as figuras.
+Você deve preencher as seções que se encontram distribuídas pelo texto e são identificadas com o texto:
+{\bf Para você fazer}.
+
+
+O relatório deve {\bf OBRIGATORIAMENTE} ser feito nesse mesmo formulário. As seguintes alternativas podem
+ser utilizadas:
+\begin{enumerate}
+\item O relatório pode ser preenchido a mão. Os gráficos podem ser impressos em papel e anexados
+      ao final do relatório devidamente identificados.
+      Ao finalizar todas as atividades você deve escanear o relatório (Utilize um aplicativo de celular como CamScanner, Adobe Scan, etc.) e salvar num arquivo PDF.
+\item Alternativamente você pode preencher o formulário utilizando um programa para edição de PDFs.
+\item Para os usuário de Latex/Overleaf a fonte *.tex tambem é fornecida porém com a utilização da fonte
+      Computer Modern.
+\end{enumerate}
+
+\vspace*{12pt}
+{\bf ATENÇÃO} 
+
+{\bf O relatório pode ser realizado invidualmente ou em duplas.}
+
+{\bf Relatórios em papel não serão aceitos. }
+
+{\bf Somente arquivos PDF serão aceitos.}
+
+{\bf O relatório completo deve ser composto de um único arquivo PDF.}
+
+\section{Roteiro}
+
+Nessa primeira aula prática vamos introduzir a utilização do software MATLAB (Ou alternativamente Python) para o projeto de sistemas
+de controle em malha fechada utilizando controladores PID.
+As técnicas de projeto de sistemas de controle utilizando os requisitos de desempenho será o tema da segunda aula.
+
+Os seguintes temas serão abordados:
+\begin{itemize}
+	\item Modelagem de um sistema de controle de posicionamento de antena parabólica,
+	\item Obtenção das funções de transferência de velocidade e de posição do sistema,
+	\item Experimentos com controladores P, PI, PD serão realizados visando principalmente
+	      observar o efeito de cada componente: P, I e D sobre cada sistema.
+\end{itemize}
+
+\section{Introdução}
+
+\subsection{A Filosofia de projeto de sistemas de controle}
+
+\subsection{Definição do sistema de controle em estudo}
+
+\section{Funções de transferência}
+
+\subsection{Sistema de controle de velocidade}
+
+Partindo do diagrama de blocos do sistema de controle de velocidade (Figura \ref{fig:blocovelang}) é possível atingir a topologia do sistema de controle em malha fechada standard
+(Figura \ref{fig:standardcl}) através da manipulação do diagrama de blocos.
+
+Por exemplo, se admitirmos que $K_{tac}=K_{pot2}$ podemos substituir os dois blocos por um único
+bloco colocado após o somador.
+É necessário agora estabelecer dois blocos que denominaremos controlador $H_\omega(s)$ e planta $G_\omega(s)$.
+
+O sistema de controle ficará definido como ilustrado na Figura \ref{fig:rearranjovel}
+
+\begin{figure}[H]\centering
+\input{diagblocovelocidadeRearranjoDashed.tex}
+\caption{Redução do diagrama de blocos do sistema de controle de velocidade.}
+\label{fig:rearranjovel}
+\end{figure}
+
+O controlador será definido através da seguinte forma geral:
+\begin{equation}
+H_\omega(s)=K_{tac}H_1(s).
+\end{equation}
+Para o nosso propósito $H_1(s)$ pode ser uma constante $K$ como ilustrado na Figura \ref{fig:rearranjovel} mas estamos interessados em controladores mais
+complexos do tipo PID.
+
+A planta pode ser escrita como:
+\begin{equation}
+\frac{\Omega_o(s)}{V_p(s)}=G_\omega(s)=\frac{K_1 K_m K_g}{(s+a)(s+a_m)}
+\end{equation}
+
+
+%\framebox{{\Large\bf Para você fazer $\blacktriangleright$}}
+
+%{\Large\bf \vspace*{12pt} [ Para você fazer $\blacktriangleright$}
+
+
+\begin{cexercicio} 
+	
+\begin{enumerate}
+\item Utilizar o script {\tt FTVelocidadeAntena.m} ou {\tt FTVelocidadeAntena.py} 
+\item Calcule a função de transferência do sistema com valores numéricos:
+\begin{center}
+	\begingroup \large
+	\renewcommand{\arraystretch}{4} % Default value: 1
+	\begin{tabular}{|c|p{10cm}|}\hline
+		\( \displaystyle G_\omega(s)=\frac{\Omega(s)}{V_p(s)} = \frac{K_c}{s^2+c_1s+c_2} \)  &   \\ \hline		  		  
+	\end{tabular}
+	\endgroup
+\end{center}
+
+\item Reescreva a função de transferência evidenciando os pólos:
+\begin{center}
+	\begingroup \large
+	%\setlength{\tabcolsep}{100pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{4} % Default value: 1
+	\begin{tabular}{|c|p{10cm}|}\hline
+		\( \displaystyle G_\omega(s)=\frac{\Omega(s)}{V_p(s)}= \frac{K_d}{(s+d_1)(s+d_2)} \)  &   \\ \hline		  		  
+	\end{tabular}
+	\endgroup
+\end{center}
+
+\item Reescreva a função de transferência evidenciando as constantes de tempo:
+\begin{center}
+	\begingroup \large
+	%\setlength{\tabcolsep}{100pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{4} % Default value: 1
+	\begin{tabular}{|c|p{10cm}|}\hline
+		\( \displaystyle G_\omega(s)=\frac{\Omega(s)}{V_p(s)}= \frac{K_T}{(T_1s+1)(T_2s+1)} \)  &   \\ \hline		  		  
+	\end{tabular}
+	\endgroup
+\end{center}
+
+\item Reescreva a função de transferência através da expansão em frações parciais:
+\begin{center}
+	\begingroup \large
+	%\setlength{\tabcolsep}{100pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{4} % Default value: 1
+	\begin{tabular}{|c|p{10cm}|}\hline
+		\( \displaystyle G_\omega(s)=\frac{\Omega(s)}{V_p(s)}= \frac{A_1}{(s+d_1)} + \frac{A_2}{(s+d_2)} \)  &   \\ \hline		  		  
+	\end{tabular}
+	\endgroup
+\end{center}
+
+\item Identifique os pólos do sistema $G_\omega(s)$:
+	\begin{center}
+	\begingroup \large
+	%\setlength{\tabcolsep}{36pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{2} % Default value: 1
+	\begin{tabular}{|c|p{5cm}|}\hline
+		pólo 1  &   \\ \hline
+		pólo 2  &   \\ \hline	  		  
+	\end{tabular}
+	\endgroup
+\end{center}
+
+\item Esboce abaixo a resposta a degrau do sistema:
+    \begin{center}
+	\begin{tikzpicture}
+	\draw [thick,step=0.5, gray!20] (0,0) grid (15,6);
+	\end{tikzpicture}
+    \end{center}
+\end{enumerate}
+\end{cexercicio}
+
+\subsection{Sistema de controle de posição angular}
+
+Da mesma forma, é possível partir do diagrama de blocos do sistema de controle de posição (Figura \ref{fig:bloco}) e atingir a topologia do sistema de controle em malha fechada standard
+(Figura \ref{fig:standardcl}) através da manipulação do diagrama de blocos.
+
+
+É necessário agora estabelecer dois blocos que denominaremos controlador $H_\theta(s)$ e planta $G_\theta(s)$.
+
+O sistema de controle ficará definido como ilustrado na Figura \ref{fig:rearranjopos}:
+
+\begin{figure}[H]\centering
+\input{diagblocoposicaoRearranjoDashed.tex}
+	\caption{Redução do diagrama de blocos do sistema de controle de posição angular.}
+	\label{fig:rearranjopos}
+\end{figure}
+
+O controlador será definido através da seguinte forma geral:
+\begin{equation}
+H_\theta(s)=K_{pot}H_1(s).
+\end{equation}
+Para o nosso propósito $H_1(s)$ será representado por controladores c PID.
+
+A planta pode ser escrita como:
+\begin{equation}
+\frac{\Theta_o(s)}{V_p(s)}=G_\theta(s)=\frac{K_1 K_m K_g}{s(s+a)(s+a_m)}
+\end{equation}
+
+
+%\framebox{{\Large\bf Para você fazer $\blacktriangleright$}}
+
+%{\Large\bf \vspace*{12pt} [ Para você fazer $\blacktriangleright$}
+
+\begin{cexercicio}{}
+\begin{enumerate}
+	\item Utilizar o script {\tt FTPosicaoAntena.m} ou {\tt FTPosicaoAntena.py} 
+	\item Calcule a função de transferência do sistema com valores numéricos:
+	\begin{center}
+		\begingroup \large
+		\renewcommand{\arraystretch}{4} % Default value: 1
+		\begin{tabular}{|c|p{10cm}|}\hline
+			\( \displaystyle G_\theta(s)=\frac{\Theta(s)}{V_p(s)} = \frac{K_c}{s^3+c_1s^2+c_2s+c_3} \)  &   \\ \hline		  		  
+		\end{tabular}
+		\endgroup
+	\end{center}
+	
+	\item Reescreva a função de transferência evidenciando os pólos:
+	\begin{center}
+		\begingroup \large
+		%\setlength{\tabcolsep}{100pt} % Default value: 6pt
+		\renewcommand{\arraystretch}{4} % Default value: 1
+		\begin{tabular}{|c|p{10cm}|}\hline
+			\( \displaystyle G_\theta(s)=\frac{\Theta(s)}{V_p(s)}= \frac{K_d}{s(s+d_1)(s+d_2)} \)  &   \\ \hline		  		  
+		\end{tabular}
+		\endgroup
+	\end{center}
+		
+	\item Identifique os pólos do sistema $G_\theta(s)$:
+	\begin{center}
+		\begingroup \large
+		%\setlength{\tabcolsep}{36pt} % Default value: 6pt
+		\renewcommand{\arraystretch}{2} % Default value: 1
+		\begin{tabular}{|c|p{5cm}|}\hline
+			pólo 1  &   \\ \hline
+			pólo 2  &   \\ \hline
+			pólo 3 & \\ \hline	  		  
+		\end{tabular}
+		\endgroup
+	\end{center}
+	
+	\item Esboce abaixo a resposta a degrau do sistema:
+	\begin{center}
+		\begin{tikzpicture}
+		\draw [thick,step=0.5, gray!20] (0,0) grid (15,6);
+		\end{tikzpicture}
+	\end{center}
+\end{enumerate}
+\end{cexercicio}
+
+\section{Controladores PID}
+
+O controlador PID pode ser escrito de diversas formas. Aqui vamos adotar o seguinte formato:
+\begin{equation}
+H_1(s) = K_p\left( 1 + \frac{1}{T_is}+T_d\frac{s}{\frac{T_d}{N}s+1} \right),
+\end{equation}
+onde $K_p$ é denominada constante proporcional, $T_i$ é o tempo integral, $T_d$ é o tempo derivativo e
+$N$ é o parâmetro do filtro de 1a. ordem que possui um pólo em $s=-N/T_d$.
+O filtro é necessário para garantir estabilidade da parte derivativa.
+
+O seu uso prático não necessariamente utiliza os três termos simultaneamente, dessa forma  podemos
+observar a utilização de variações como controladores P, PI, PD e PID.
+
+O sucesso industrial dos controladores PID se explica pelo fato de possuir flexibilidade suficiente para
+obter uma solução de controle para quase qualquer processo industrial.
+
+Para demonstrar o papel de cada parâmetro do controlador PID realizaremos experimentos de simulação
+dos sistemas de controle de velocidade e de posição.
+
+Utilizaremos para todos os experimentos de simulação os mesmos {\tt scripts}:
+\begin{enumerate}
+	\item {\tt ControleDeVelocidade\_PID.m},\;{\tt Exp1\_ControleDeVelocidade\_PID.py},\; {\tt Exp1\_ControleDeVelocidade\_PID.ipynb},
+	\item {\tt ControleDePosicao\_PID.m},\;{\tt Exp1\_ControleDePosicao\_PID.py},\; {\tt Exp1\_ControleDePosicao\_PID.ipynb}.
+\end{enumerate}
+{\bf Os parâmetros dos controladores PID devem ser alterados adequadamente para cada situação.}
+
+\section{Controlador Proporcional}
+
+O controlador proporcional é o controlador mais simples possível e é definido aqui como
+$H_1(s)=K_p$.
+
+Algumas características dessa ação de controle:
+\begin{itemize}
+\item O ganho proporcional $K_p$ multiplica o sinal de controle proporcionalmente ao erro,
+\item Com o aumento do ganho proporcional o sistema reage mais rápido porém pode eventualmente
+      levar  a um sistema mais oscilatório, com maior sobressinal,
+\item Eventualmente o aumento do ganho proporcional leva o sistema para uma região instável.
+\item Ganhos proporcionais elevados reduzem a faixa linear de operação dos atuadores devido ao
+      fenômeno de saturação.
+\end{itemize}
+
+A seguir algumas características desse controlador poderão ser observadas através de
+simulações do sistema de controle de velocidade e de posição
+
+\newpage
+
+\subsection{Controle de velocidade}
+
+\begin{cexercicio}{}
+\begin{enumerate}
+	\item Considerando que $H_\omega(s)=K_{tac}K_p$ e que:
+	      \begin{equation}
+	      G_{\omega}(s) = \frac{K_1 K_m K_g}{(s+a)(s+a_m)},
+	      \end{equation}
+	      calcule o erro estático $\omega_{e_{ss}}$ do sistema de controle em malha fechada (Veja \ref{fig:rearranjovel}) para uma entrada
+	      degrau $\Omega_i(s)=A/s$.
+	      Utilize os seguintes resultados (As variáveis aqui se referem à Figura \ref{fig:standardcl}):
+	      \begin{itemize}
+	      	\item \begin{equation} e_{ss} = \lim_{t\rightarrow\infty}e(t) = \lim_{s\rightarrow 0} s E(s)\end{equation},
+	      	\item \begin{equation}\frac{E(s)}{R(s)}=\frac{1}{1+GH(s)}.\end{equation}
+	      \end{itemize}
+      
+          \espacoquatro
+
+    \item Utilizando o script de controle de velocidade realize simulações do sistema de 
+          controle em malha fechada com três valores do ganho proporcional do controlador
+          $K_p=\{ 3.0, 5.0, 7.0 \}$.
+          
+    \item Identifique os pólos da malha aberta $GH_\omega(s)$ para cada um dos valores de $K_p$:
+      \begin{center}
+      	\begingroup \large
+      	\setlength{\tabcolsep}{30pt} % Default value: 6pt
+      	\renewcommand{\arraystretch}{2} % Default value: 1
+      	\begin{tabular}{|c|c|c|c|}\hline
+           $K_p$  & $K_{p_1}$ & $K_{p_2}$ & $K_{p_3}$   \\ \hline
+      		pólo 1  &        &        &        \\ \hline
+      		pólo 2  &        &        &        \\ \hline	  		  
+      	\end{tabular}
+      	\endgroup
+      \end{center}
+      
+    \item Identifique os pólos da malha fechada para cada um dos valores de $K_p$:
+\begin{center}
+	\begingroup \large
+	\setlength{\tabcolsep}{30pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{2} % Default value: 1
+	\begin{tabular}{|c|c|c|c|}\hline
+		$K_p$  & $K_{p_1}$ & $K_{p_2}$ & $K_{p_3}$   \\ \hline 
+		pólo 1  &        &        &        \\ \hline
+		pólo 2  &        &        &        \\ \hline	  		  
+	\end{tabular}
+	\endgroup
+\end{center}
+
+	    \item Compare a posição dos pólos de malha fechada em relação à posição
+              dos pólos de malha aberta.
+
+        \espacoquatro
+
+    \item Esboce abaixo a resposta transitória para uma entrada do tipo degrau unitário.
+     \begin{center}
+     	\begin{tikzpicture}
+     	\draw [thick,step=0.5, gray!20] (0,0) grid (15,6);
+     	\end{tikzpicture}
+     \end{center}
+ 
+    \item Preencha na tabela abaixo o  erro estático para cada valor de $K_p$:
+
+\begin{center}
+	\begingroup \large
+	\setlength{\tabcolsep}{30pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{2} % Default value: 1
+	\begin{tabular}{|c|c|}\hline
+		$K_p$  & $\omega_{e_{ss}}$ \\ \hline
+		 $K_{p_1}$ &       \\ \hline
+		 $K_{p_2}$ &       \\ \hline	  
+		 $K_{p_3}$ &       \\ \hline	  		  
+	\end{tabular}		  
+	\endgroup
+\end{center}
+
+\item Anote na tabela abaixo os valores obtidos para o tempo de subida $t_r$, tempo de acomodação
+      $t_s$, Máximo sobresinal $M_p$ da variável $\omega_o(t)$ e $\max v_p(t)$ (Valor máximo da saída do controlador $v_p(t)$)
+\begin{center}
+	\begingroup \large
+	\setlength{\tabcolsep}{36pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{2} % Default value: 1
+	\begin{tabular}{|c|c|c|c|c|}\hline
+		$K_p$ & $t_r$ &  $t_s$ & $M_p$ & $\max v_p(t)$ \\ \hline
+		$K_{p_1}$  & & & & \\ \hline
+		$K_{p_2}$  & & & & \\ \hline
+		$K_{p_3}$  & & & & \\ \hline		  		  
+	\end{tabular}
+	\endgroup
+\end{center}
+
+\item Como as grandezas $t_r$, $t_s$, $M_p$ e $\max v_p(t)$ variam com a variação de $K_p$ ?
+
+      \espacoquatro
+
+\end{enumerate}
+\end{cexercicio}
+
+\subsection{Controle de posição}
+O sistema de controle de posição possui na malha aberta $GH_\theta(s)$  um integrador $1/s$ adicional
+e uma constante do potenciômetro $K_{pot}$ da mesma ordem de magnitude de $K_{tac}$.
+
+Será verificado que a introdução do integrador torna o sistema sistema mais lento
+o que requer a utilização de um ganho $K_p$ bem maior.
+Entretanto o integrador transforma o sistema em um sistema do tipo 1.
+Como consequência o erro $\theta_{e_{ss}}$ se torna nulo para um sinal de 
+referência do tipo degrau.
+
+\begin{cexercicio}{}
+	\begin{enumerate}
+		\item Considerando que $H_\theta(s)=K_{pot}K_p$ e que:
+		\begin{equation}
+		G_{\theta}(s) = \frac{K_1 K_m K_g}{s(s+a)(s+a_m)},
+		\end{equation}
+		calcule o erro estático $\theta_{e_{ss}}$ do sistema de controle em malha fechada (Veja Figura \ref{fig:rearranjopos}) para uma entrada
+		degrau $\Theta_i(s)=A/s$.
+		
+		\espacoquatro
+		
+		\item Utilizando o script de controle de posição realize simulações do sistema de 
+		controle em malha fechada com três valores do ganho proporcional do controlador
+		$K_p=\{ 10.0, 20.0, 50.0\}$.
+		
+		\item Identifique os pólos da malha aberta $GH_\theta(s)$ para cada um dos valores de $K_p$:
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{30pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|}\hline
+				 $K_p$  & $K_{p_1}$ & $K_{p_2}$ & $K_{p_3}$   \\ \hline 
+				pólo 1  &        &        &        \\ \hline
+				pólo 2  &        &        &        \\ \hline
+				pólo 3  &        &        &        \\ \hline					  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+		\item Identifique os pólos da malha fechada para cada um dos valores de $K_p$:
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{30pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|}\hline
+				 $K_p$  & $K_{p_1}$ & $K_{p_2}$ & $K_{p_3}$   \\ \hline
+				pólo 1  &        &        &        \\ \hline
+				pólo 2  &        &        &        \\ \hline
+				pólo 3  &        &        &        \\ \hline					  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+	    \item Compare a posição dos pólos de malha fechada em relação à posição
+                dos pólos de malha aberta.
+
+              \espacoquatro
+
+		\item Esboce abaixo a resposta transitória para uma entrada do tipo degrau unitário.
+		\begin{center}
+			\begin{tikzpicture}
+			\draw [thick,step=0.5, gray!20] (0,0) grid (15,6);
+			\end{tikzpicture}
+		\end{center}
+		
+    \item Preencha na tabela abaixo o  erro estático para cada valor de $K_p$:
+
+\begin{center}
+	\begingroup \large
+	\setlength{\tabcolsep}{30pt} % Default value: 6pt
+	\renewcommand{\arraystretch}{2} % Default value: 1
+	\begin{tabular}{|c|c|}\hline
+		$K_p$  & $\theta_{e_{ss}}$ \\ \hline
+		$K_{p_1}$  &       \\ \hline
+		$K_{p_2}$  &       \\ \hline	  
+		 $K_{p_3}$ &       \\ \hline	  		  
+	\end{tabular}		  
+	\endgroup
+\end{center}	
+		
+		\item Anote na tabela abaixo os valores obtidos para o tempo de subida $t_r$, tempo de acomodação
+		$t_s$, Máximo sobresinal $M_p$ da variável $\omega_o(t)$ e $\max v_p(t)$ (Valor máximo da saída do controlador
+		$v_p(t)$)
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{36pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|c|}\hline
+				$K_p$ & $t_r$ &  $t_s$ & $M_p$ & $\max v_p(t)$ \\ \hline
+				$K_{p_1}$ & & & & \\ \hline
+				$K_{p_2}$ & & & & \\ \hline
+				$K_{p_3}$ & & & & \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+	
+	  \item Como as grandezas $t_r$, $t_s$, $M_p$ e $\max v_p(t)$ variam com a variação de $K_p$ ?
+
+           \espacoquatro
+			
+	\end{enumerate}
+\end{cexercicio}
+
+\section{Controlador proporcional integral}
+
+O controlador PI pode ser escrito da seguinte forma:
+\begin{equation}
+H_1(s) = K_p \left(1+\frac{1}{T_is} \right)
+\end{equation}
+
+O controlador PI combina o efeito proporcional e integral no mesmo controlador.
+
+Sabemos pela seção anterior que para o controle de velocidade o integrador é fundamental
+para transformar o sistema de tipo 0 para um sistema de tipo 1 e dessa forma
+atingir erro estático $\omega_{e_{ss}}=0$ para sinais de referência do tipo degrau.
+
+Para o controle de posição o sistema passa a ser do tipo 2 o que permite atingir erro 
+estatico $\omega_{e_{ss}}=0$ para sinais de referência dos tipos degrau e rampa.
+
+A presença de um segundo integrador no sistema de controle de posição torna a escolha
+dos parâmeros $K_p$ e $T_i$ bem mais difícil.
+Será ilustrado um conjunto de parâmetros que movimenta os pólos para uma região instável.
+
+\subsection{Controle de velocidade} 
+\begin{cexercicio}{}
+	\begin{enumerate}
+		\item Considerando que:
+		\begin{equation}
+		 H_\omega(s)=K_{tac} K_p \left(1+\frac{1}{T_is}\right)
+		 \end{equation}
+		 e
+		\begin{equation}
+		G_{\omega}(s) = \frac{K_1 K_m K_g}{(s+a)(s+a_m)},
+		\end{equation}
+		calcule o erro estático $\omega_{e_{ss}}$ do sistema de controle em malha fechada para uma entrada
+		degrau $\Omega_i(s)=A/s$.
+		
+		\espacoquatro
+		
+		\item Utilizando o script de controle de velocidade realize simulações do sistema de 
+		controle em malha fechada com três valores do tempo integral do controlador
+		$T_i=\{ 0.1, 0.2, 0.5\}$ e valor de $K_p=5.0$.
+				
+		\item Escreva a função de transferência do sistema em malha aberta com valores numéricos:
+	     \begin{center}
+		    \begingroup \large
+		   	\renewcommand{\arraystretch}{4} % Default value: 1
+			\begin{tabular}{|c|p{10cm}|}\hline
+				\( \displaystyle GH_\omega(s) \)  &   \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+	     \end{center}
+		
+		\item Identifique os pólos de malha aberta $GH_\omega(s)$ para cada um dos valores de $T_i$:
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{30pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|}\hline
+				        & $T_{i_1}$ & $T_{i_2}$ & $T_{i_3}$   \\ \hline
+				pólo 1  &        &        &        \\ \hline
+				pólo 2  &        &        &        \\ \hline
+				pólo 3  &        &        &        \\ \hline
+%				pólo 4  &        &        &        \\ \hline				
+				zero    &        &        &        \\ \hline					  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+
+		\item Escreva a função de transferência em malha fechada do sistema com valores numéricos:
+        \begin{center}
+	    \begingroup \large
+	    \renewcommand{\arraystretch}{4} % Default value: 1
+	    \begin{tabular}{|c|p{10cm}|}\hline
+		   \( \displaystyle \frac{GH_\omega(s)}{1+GH_\omega(s)} \)  &   \\ \hline		  		  
+	    \end{tabular}
+	    \endgroup
+        \end{center}
+    
+		\item Identifique os pólos da malha fechada para cada um dos valores de $K_p$:
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{30pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|}\hline
+				        & $T_{i_1}$ & $T_{i_2}$ & $T_{i_3}$   \\ \hline
+				pólo 1  &        &        &        \\ \hline
+				pólo 2  &        &        &        \\ \hline
+				pólo 3  &        &        &        \\ \hline
+%				pólo 4  &        &        &        \\ \hline				
+                zero    &        &        &        \\ \hline					  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+	    \item Compare a posição dos pólos de malha fechada em relação à posição
+              dos pólos de malha aberta.
+
+              \espacoquatro
+
+		\item Esboce abaixo a resposta transitória para uma entrada do tipo degrau unitário.
+		\begin{center}
+			\begin{tikzpicture}
+			\draw [thick,step=0.5, gray!20] (0,0) grid (15,6);
+			\end{tikzpicture}
+		\end{center}
+		
+		\item Anote na tabela abaixo os valores obtidos para o tempo de subida $t_r$, tempo de acomodação
+		$t_s$, Máximo sobresinal $M_p$ da variável $\omega_o(t)$ e $\max v_p(t)$ (Valor máximo da saída do controlador
+		$v_p(t)$)
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{36pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|c|}\hline
+				$T_i$ & $t_r$ &  $t_s$ & $M_p$ & $\max v_p(t)$ \\ \hline
+				$T_{i_1}$ & & & & \\ \hline
+				$T_{i_2}$ & & & & \\ \hline
+				$T_{i_3}$ & & & & \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+	  \item Como as grandezas $t_r$, $t_s$, $M_p$ e $\max v_p(t)$ variam com a variação de $T_i$ ?
+
+      \espacoquatro
+	  \end{enumerate}
+\end{cexercicio}
+
+\subsection{Controle de posição}
+
+Aqui os controladores PI utilizarão os mesmo parâmetros utilizados para o controle de velocidade.
+{\bf A intenção é mostrar que esse sistema se torna facilmente instável}.  
+
+\begin{cexercicio}{}
+	\begin{enumerate}
+		\item Considerando que:
+        \begin{equation}
+            H_\theta(s)=K_{pot} K_p \left(1+\frac{1}{T_is}\right)
+        \end{equation}
+        e
+        \begin{equation}
+         G_{\theta}(s) = \frac{K_1 K_m K_g}{s(s+a)(s+a_m)},
+        \end{equation}		
+		calcule o erro estático $\theta_{e_{ss}}$ do sistema de controle em malha fechada para uma entrada
+		degrau $\Theta_i(s)=A/s$.
+		
+		\espacoquatro
+		
+		\item Utilizando o script de controle de posição realize simulações do sistema de 
+		controle em malha fechada com três valores do tempo integral do controlador
+		$T_i=\{ 0.1, 0.2, 0.5\}$ e valor de $K_p=5.0$.
+		
+		\item Escreva a função de transferência do sistema com valores numéricos:
+		\begin{center}
+			\begingroup \large
+			\renewcommand{\arraystretch}{4} % Default value: 1
+			\begin{tabular}{|c|p{10cm}|}\hline
+				\( \displaystyle GH_\theta(s) \)  &   \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+		\item Identifique os pólos de malha aberta $GH_\theta(s)$ para cada um dos valores de $T_i$:
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{30pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|}\hline
+				$K$  & $T_{i_1}$ & $T_{i_2}$ & $T_{i_3}$   \\ \hline
+				pólo 1  &        &        &        \\ \hline
+				pólo 2  &        &        &        \\ \hline
+				pólo 3  &        &        &        \\ \hline
+				pólo 4  &        &        &        \\ \hline
+				zero    &        &        &        \\ \hline					  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+		\item Escreva a função de transferência em malha fechada do sistema com valores numéricos:
+		\begin{center}
+			\begingroup \large
+			\renewcommand{\arraystretch}{4} % Default value: 1
+			\begin{tabular}{|c|p{10cm}|}\hline
+				\( \displaystyle \frac{GH_\theta(s)}{1+GH_\theta(s)} \)  &   \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+		\item Identifique os pólos da malha fechada para cada um dos valores de $K_p$:
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{30pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|}\hline
+				$K_p$  & $K_{p_1}$ & $K_{p_2}$ & $K_{p_3}$   \\ \hline
+				pólo 1  &        &        &        \\ \hline
+				pólo 2  &        &        &        \\ \hline
+				pólo 3  &        &        &        \\ \hline
+				zero    &        &        &        \\ \hline					  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+	    \item Compare a posição dos pólos de malha fechada em relação à posição
+              dos pólos de malha aberta.
+
+              \espacoquatro
+              		
+        \item Esboce abaixo a resposta transitória para uma entrada do tipo degrau unitário.
+		\begin{center}
+			\begin{tikzpicture}
+			\draw [thick,step=0.5, gray!20] (0,0) grid (15,6);
+			\end{tikzpicture}
+		\end{center}
+		
+		\item Anote na tabela abaixo os valores obtidos para o tempo de subida $t_r$, tempo de acomodação
+		$t_s$, Máximo sobresinal $M_p$ da variável $\omega_o(t)$ e $\max v_p(t)$ (Valor máximo da saída do controlador
+		$v_p(t)$)
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{36pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|c|}\hline
+				$T_i$ & $t_r$ &  $t_s$ & $M_p$ & $\max v_p(t)$ \\ \hline
+				$T_{i_1}$ & & & & \\ \hline
+				$T_{i_2}$ & & & & \\ \hline
+				$T_{i_3}$ & & & & \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+	
+	  \item Como as grandezas $t_r$, $t_s$, $M_p$ e $\max v_p(t)$ variam com a variação de $T_i$ ?
+
+       \espacoquatro	
+			
+	\end{enumerate}
+\end{cexercicio}
+
+\section{Controlador proporcional derivativo}
+
+O controlador PD pode ser escrito da seguinte forma:
+\begin{equation}
+H_1(s) = K_p(1+T_d\frac{s}{\frac{T_d}{N}s+1}),
+\end{equation}
+
+O filtro de 1a. ordem que é definido como:
+\begin{equation}
+\frac{1}{\frac{T_d}{N}s+1},
+\end{equation}
+é necessário para garantir que a parte derivativa seja um sistema causal (grau do polinômio do denominador
+igual ou maior que o grau do polinômio do numerador), o que garante a estabilidade numérica da simulação.
+Além disso, a componente derivativa gera valores de saída extremamente elevados para entradas rápidas, por exemplo, do tipo degrau (Para uma entrada degrau a derivada é infinita) ou ruídos de alta frequência.
+Quanto menor o valor de $N$ menor a frequência de corte do filtro.
+
+O controlador PD não possui obviamente integrador dessa forma para o sistema de controle de
+velocidade apesar de que uma resposta estável e rápida possa ser obtida o erro
+erro estático $\omega_{e_{ss}}$ não pode ser feito nulo.
+
+\subsection{Controle de velocidade}
+\begin{cexercicio}{}
+	\begin{enumerate}
+		\item Considerando que:
+		$H_\omega(s)=K_{tac}K_p(1+T_d\frac{s}{\frac{T_d}{N}s+1})$ e que
+		\begin{equation}
+		G_{\omega}(s) = \frac{K_1 K_m K_g}{(s+a)(s+a_m)},
+		\end{equation}
+		calcule o erro estático $\omega_{e_{ss}}$ do sistema de controle em malha fechada para uma entrada
+		degrau $\Omega_i(s)=A/s$.
+		
+		\espacocinco
+		
+		\item Utilizando o script de controle de velocidade realize simulações do sistema de 
+		controle em malha fechada com três valores do tempo derivativo do controlador
+		$T_d=\{ 0.1, 0.5, 1.5 \}$, os outros parâmetros devem ser:
+		\begin{itemize}
+			\item $K_p = 1.0$,
+			\item $N = 1.0$
+		\end{itemize}
+		
+		\item Escreva a função de transferência do sistema em malha aberta com valores numéricos:
+		\begin{center}
+			\begingroup \large
+			\renewcommand{\arraystretch}{4} % Default value: 1
+			\begin{tabular}{|c|p{10cm}|}\hline
+				\( \displaystyle GH_\omega(s) \)  &   \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+		\item Identifique os pólos de malha aberta $GH_\omega(s)$ para cada um dos valores de $T_d$:
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{30pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|}\hline
+				& $T_{d_1}$ & $T_{d_2}$ & $T_{d_3}$   \\ \hline
+				pólo 1  &        &        &        \\ \hline
+				pólo 2  &        &        &        \\ \hline
+				pólo 3  &        &        &        \\ \hline
+				% pólo 4  &        &        &        \\ \hline				
+				zero    &        &        &        \\ \hline					  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+		\item Escreva a função de transferência em malha fechada do sistema com valores numéricos:
+		\begin{center}
+			\begingroup \large
+			\renewcommand{\arraystretch}{4} % Default value: 1
+			\begin{tabular}{|c|p{10cm}|}\hline
+				\( \displaystyle \frac{GH_\omega(s)}{1+GH_\omega(s)} \)  &   \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+		\item Identifique os pólos da malha fechada para cada um dos valores de $T_d$:
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{30pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|}\hline
+				& $T_{d_1}$ & $T_{d_2}$ & $T_{d_3}$   \\ \hline
+				pólo 1  &        &        &        \\ \hline
+				pólo 2  &        &        &        \\ \hline
+				pólo 3  &        &        &        \\ \hline
+				%pólo 4  &        &        &        \\ \hline				
+				zero    &        &        &        \\ \hline					  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+	
+	    \item Compare a posição dos pólos de malha fechada em relação à posição
+	          dos pólos de malha aberta.
+	          
+	          \espacoquatro
+		
+		\item Esboce abaixo a resposta transitória para uma entrada do tipo degrau unitário.
+		\begin{center}
+			\begin{tikzpicture}
+			\draw [thick,step=0.5, gray!20] (0,0) grid (15,6);
+			\end{tikzpicture}
+		\end{center}
+		
+		\item Anote na tabela abaixo os valores obtidos para o tempo de subida $t_r$, tempo de acomodação
+		$t_s$, Máximo sobresinal $M_p$ da variável $\omega_o(t)$ e $\max v_p(t)$ (Valor máximo da saída do controlador
+		$v_p(t)$)
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{36pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|c|}\hline
+				$T_d$ & $t_r$ &  $t_s$ & $M_p$ & $\max v_p(t)$ \\ \hline
+				$T_{d_1}$ & & & & \\ \hline
+				$T_{d_2}$ & & & & \\ \hline
+				$T_{d_3}$ & & & & \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+	  \item Como as grandezas $t_r$, $t_s$, $M_p$ e $\max v_p(t)$ variam com a variação de $T_d$ ?
+	  
+	  \espacoquatro
+	
+	\end{enumerate}
+\end{cexercicio}
+
+\subsection{Controle de posição}
+
+\begin{cexercicio}{}
+	\begin{enumerate}
+         \item Considerando que:
+         $H_\theta(s)=K_{tac}K_p(1+T_d\frac{s}{\frac{T_d}{N}s+1})$ e que
+         \begin{equation}
+         G_{\theta}(s) = \frac{K_1 K_m K_g}{s(s+a)(s+a_m)},
+         \end{equation}
+		calcule o erro estático $\theta_{e_{ss}}$ do sistema de controle em malha fechada para uma entrada
+		degrau $\Theta_i(s)=A/s$.
+		
+		\espacoquatro
+
+		\item Utilizando o script de controle de posição realize simulações do sistema de 
+controle em malha fechada com três valores do tempo derivativo do controlador
+$T_d=\{ 0.1, 0.5, 1.0\}$, os outros parâmetros devem ser:
+\begin{itemize}
+	\item $K_p = 10$,
+	\item $N = 1$
+\end{itemize}		
+ 		
+		\item Escreva a função de transferência em malha aberta do sistema com valores numéricos:
+		\begin{center}
+			\begingroup \large
+			\renewcommand{\arraystretch}{4} % Default value: 1
+			\begin{tabular}{|c|p{10cm}|}\hline
+				\( \displaystyle GH_\theta(s) \)  &   \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+		\item Identifique os pólos de malha aberta $GH_\theta(s)$ para cada um dos valores de $T_d$:
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{30pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|}\hline
+				$K$  & $T_{d_1}$ & $T_{d_2}$ & $T_{d_3}$   \\ \hline
+				pólo 1  &        &        &        \\ \hline
+				pólo 2  &        &        &        \\ \hline
+				pólo 3  &        &        &        \\ \hline
+				pólo 4  &        &        &        \\ \hline
+				zero    &        &        &        \\ \hline					  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+		\item Escreva a função de transferência em malha fechada do sistema com valores numéricos:
+		\begin{center}
+			\begingroup \large
+			\renewcommand{\arraystretch}{4} % Default value: 1
+			\begin{tabular}{|c|p{10cm}|}\hline
+				\( \displaystyle \frac{GH_\theta(s)}{1+GH_\theta(s)} \)  &   \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+		\item Identifique os pólos da malha fechada para cada um dos valores de $K_p$:
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{30pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|}\hline
+				$K$  & $T_{d_1}$ & $T_{d_2}$ & $T_{d_3}$   \\ \hline
+				pólo 1  &        &        &        \\ \hline
+				pólo 2  &        &        &        \\ \hline
+				pólo 3  &        &        &        \\ \hline
+				pólo 4  &        &        &        \\ \hline				
+				zero    &        &        &        \\ \hline					  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+		
+	    \item Compare a posição dos pólos de malha fechada em relação à posição
+              dos pólos de malha aberta.
+
+              \espacoquatro
+
+		\item Esboce abaixo a resposta transitória para uma entrada do tipo degrau unitário.
+		\begin{center}
+			\begin{tikzpicture}
+			\draw [thick,step=0.5, gray!20] (0,0) grid (15,6);
+			\end{tikzpicture}
+		\end{center}
+		
+		\item Anote na tabela abaixo os valores obtidos para o tempo de subida $t_r$, tempo de acomodação
+		$t_s$, Máximo sobresinal $M_p$ da variável $\omega_o(t)$ e $\max v_p(t)$ (Valor máximo da saída do controlador
+		$v_p(t)$)
+		\begin{center}
+			\begingroup \large
+			\setlength{\tabcolsep}{36pt} % Default value: 6pt
+			\renewcommand{\arraystretch}{2} % Default value: 1
+			\begin{tabular}{|c|c|c|c|c|}\hline
+				$T_d$ & $t_r$ &  $t_s$ & $M_p$ & $\max v_p(t)$ \\ \hline
+				$T_{d_1}$ & & & & \\ \hline
+				$T_{d_2}$ & & & & \\ \hline
+				$T_{d_3}$ & & & & \\ \hline		  		  
+			\end{tabular}
+			\endgroup
+		\end{center}
+	
+	\item Como as grandezas $t_r$, $t_s$, $M_p$ e $\max v_p(t)$ variam com a variação de $T_d$ ?
+	\espacoquatro
+		
+	\end{enumerate}
+\end{cexercicio}
+
+\section{Discussões}
+
+\espacocinco\espacodois
+
+\section{Conclusões}
+
+\espacocinco\espacodois
+
+\end{document}
