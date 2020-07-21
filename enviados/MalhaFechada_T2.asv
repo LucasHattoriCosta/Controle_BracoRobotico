@@ -27,7 +27,7 @@ A = Minv*Atil;
 
 B = Minv*Btil;
 
-C = [1, 0, 0, 0, 0, 0; 0, 0, 0, 1, 0, 0; 0, 0, 0, 0, 0, 1];
+C = [1, 0, 0, 0, 0, 0; 0, 1, 0, 0, 0, 0; 0, 0, 1, 0, 0, 0];
 
 D = 0;
 
@@ -112,15 +112,15 @@ grid on
 xlabel('Tempo (s)')
 ylabel('Saída no Tempo')
 title('Simulação da Matriz de Transição de Malha Fechada - Alocação de Polos')
-legend('x (m)','$\theta_1$ (rad)','$\theta_2$ (rad)')
+legend('x','$\theta_1$','$\theta_2$')
 
 figure
 plot(t,x(2,:),t,x(4,:),t,x(6,:))
 grid on
 xlabel('Tempo (s)')
 ylabel('Saída no Tempo')
-title('Simulação da Matriz de Transição de Malha Fechada - Alocação de Polos')
-legend('$\dot{x}$ (m/s)','$\dot{\theta_1}$ (rad/s)','$\dot{\theta_2}$ (rad/s)')
+title('Simulação da Matriz de Transição de Malha Fechada - Alocação de Polos 2')
+legend('$\dot{x}$','$\dot{\theta_1}$','$\dot{\theta_2}$')
 
 
 % %%% Vídeo da Animação

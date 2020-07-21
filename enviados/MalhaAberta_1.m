@@ -25,7 +25,7 @@ A = Minv*Atil;
 
 B = Minv*Btil;
 
-C = eye(6);
+C = [1, 0, 0, 0, 0, 0; 0, 0, 0, 1, 0, 0; 0, 0, 0, 0, 0, 1];
 
 D = 0;
 
@@ -83,7 +83,7 @@ p = pole(ee);
 
 % matriz_latex(Phi,'C:\Users\Lucas Paiva\Documents\USP\Trabalhos\Controle\T2\Matlabs\Phi.txt')
 % matriz_latex(Cont,'C:\Users\Lucas Paiva\Documents\USP\Trabalhos\Controle\T2\Matlabs\Contr.txt')
-% matriz_latex(Ob,'C:\Users\Lucas Paiva\Documents\USP\Trabalhos\Controle\T2\Matlabs\Obsv.txt')
+matriz_latex(Ob,'C:\Users\Lucas Paiva\Documents\USP\Trabalhos\Controle\T2\T2_controlao\enviados\Obsv.txt')
 
 % figure
 % rlocus(ee)
