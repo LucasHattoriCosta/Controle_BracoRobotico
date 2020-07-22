@@ -31,15 +31,15 @@ A = Minv*Atil;
 
 B = Minv*Btil;
 
-C = eye(6);
+C = [1, 0, 0, 0, 0, 0; 0, 0, 0, 1, 0, 0; 0, 0, 0, 0, 0, 1];
 
-D = zeros(6,3);
+D = zeros(3);
 
 ee = ss(A,B,C,D); % Espaco de Estados de malha aberta
 
 fts = tf(ee); % Mudanca para FTs
 
-FT_T2_theta2dot = fts(6,3); % FT relacionando thetadot2 x T2
+FT_T2_theta2dot = fts(3,3); % FT relacionando thetadot2 x T2
 
 %%% Consertando FT1
 
@@ -53,7 +53,7 @@ FT_T2_theta2dot = tf(num2,den2);
 PID_ITAE = pid(65,1250);
 PID_LR = pid(63.049, 63.049*5.643);
 PID_tuner = pid(19.5, 1822.4, 0.05);
-PID_aloc = pid(50.77, 136.3, 1.31);
+PID_aloc = pid(47.2, 274, 0);
 
 %% FTMF
 FTMF_ITAE = feedback(PID_ITAE * FT_T2_theta2dot,1);

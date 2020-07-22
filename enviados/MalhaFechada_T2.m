@@ -47,7 +47,7 @@ ee_fechada = ss(F,B,C,D); % Espaco de estados por alocacao
 Dt = 0.005;
 Phi = expm(F*Dt);
 ti = 0;
-tf = 0.8;
+tf = 1.5;
 t = ti:Dt:tf;
 x = zeros(size(t));
 
@@ -121,6 +121,7 @@ xlabel('Tempo (s)')
 ylabel('Saída no Tempo')
 title('Simulação da Matriz de Transição de Malha Fechada - Alocação de Polos')
 legend('$\dot{x}$ (m/s)','$\dot{\theta_1}$ (rad/s)','$\dot{\theta_2}$ (rad/s)')
+axis([0 1.5 -1.2 0.1])
 
 
 % %%% Vídeo da Animação

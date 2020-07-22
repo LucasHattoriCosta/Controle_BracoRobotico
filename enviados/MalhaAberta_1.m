@@ -83,7 +83,7 @@ p = pole(ee);
 
 % matriz_latex(Phi,'C:\Users\Lucas Paiva\Documents\USP\Trabalhos\Controle\T2\Matlabs\Phi.txt')
 % matriz_latex(Cont,'C:\Users\Lucas Paiva\Documents\USP\Trabalhos\Controle\T2\Matlabs\Contr.txt')
-matriz_latex(Ob,'C:\Users\Lucas Paiva\Documents\USP\Trabalhos\Controle\T2\T2_controlao\enviados\Obsv.txt')
+% matriz_latex(Ob,'C:\Users\Lucas Paiva\Documents\USP\Trabalhos\Controle\T2\T2_controlao\enviados\Obsv.txt')
 
 % figure
 % rlocus(ee)
