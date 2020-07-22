@@ -48,24 +48,17 @@ num2 = [num 0];
 den2 = [den 0];
 FT_T2_theta2dot = tf(num2,den2);
 
-%% Redução de Ordem
+%% Compensadores
 
-%%% Terceira ordem
-[sysb,g] = balreal(FT_T2_theta2dot);
-sysr3 = modred(sysb,[4 5 6],'del');
-sysr3 = zpk(sysr3);
+%%% LR
+C_LR = tf([320020 960060],[1 1]);
+FTMF_LR = feedback(C_LR*FT_T2_theta2dot,1);
 figure
-bodeplot(FT_T2_theta2dot,sysr3,'r--')
-title('Diagrama de Bode - sistema original e reduzido')
-legend('Original','Reduzido para Ordem 3')
-xlim([1 10])
+step(FTMF_LR)
 
-%%% Quarta ordem
-num_red = [7.281 0.004831 238.1 -1.32e-10];
-den_red = [1 0.0003049 68.78 0.01021 1168];
+%%% Bode
+%C_Bode = tf([131220 39.366],[1 8.351e-08]);
+C_Bode = tf([37.43 91.2395],[1 7.047e-08]);
+FTMF_Bode = feedback(C_Bode*FT_T2_theta2dot,1);
 figure
-sysr4 = tf(num_red,den_red);
-bodeplot(FT_T2_theta2dot,sysr4,'r--')
-title('Diagrama de Bode - sistema original e reduzido')
-legend('Original','Reduzido para Ordem 4')
-xlim([1 10])
+step(FTMF_Bode)
