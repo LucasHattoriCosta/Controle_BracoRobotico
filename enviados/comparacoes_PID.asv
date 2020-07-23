@@ -75,11 +75,11 @@ step(FTMF_aloc)
 hold on
 step(FTMF_comp)
 yline(1,'-.');
-title({'Resposta ao degrau com diferentes sintonizações de controladores'}, 'Fontsize', 20)
-xlabel('Tempo','Fontsize',16)
+title({'Resposta ao degrau com diferentes sintonizações de controladores'}, 'Fontsize', 12)
+xlabel('Tempo')
 xlim([0 0.15])
-ylabel('Velocidade Angular (rad/s)','Fontsize',16)
-legend({'PI - ITAE','PI - LR','PID - PID tuner','PI - Aloca\c{c}\~{a}o de polos','Compensador'}, 'Fontsize', 16)
+ylabel('Velocidade Angular (rad/s)')
+legend({'PI - ITAE','PI - LR','PID - PID tuner','PI - Aloca\c{c}\~{a}o de polos','Compensador'}, 'Fontsize', 9)
 
 %% Parametros do Step
 

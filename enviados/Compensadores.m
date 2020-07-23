@@ -50,15 +50,24 @@ FT_T2_theta2dot = tf(num2,den2);
 
 %% Compensadores
 
-%%% LR
-C_LR = tf([320020 960060],[1 1]);
-FTMF_LR = feedback(C_LR*FT_T2_theta2dot,1);
+%%% controlSystemDesigner
+C_csd = tf([37.43 91.2395],[1 7.047e-08]);
+FTMF_csd = feedback(C_csd*FT_T2_theta2dot,1);
 figure
-step(FTMF_LR)
+step(FTMF_csd)
+title('Resposta do sistema compensado ao degrau unitário')
+xlabel('Tempo')
+ylabel('Velocidade angular (rad/s)')
 
-%%% Bode
-%C_Bode = tf([131220 39.366],[1 8.351e-08]);
-C_Bode = tf([37.43 91.2395],[1 7.047e-08]);
-FTMF_Bode = feedback(C_Bode*FT_T2_theta2dot,1);
+%%% Avanço
+phi = 80; % graus
+alpha = 130.646;
+wn = 0.431; % rad/s
+z = wn/sqrt(alpha);
+p = z*alpha;
+C_av = alpha*tf([1 z],[1 p]);
 figure
-step(FTMF_Bode)
+margin(C_av*FT_T2_theta2dot)
+hold
+bode(FT_T2_theta2dot)
+legend('Compensado','N\~{a}o compensado')
