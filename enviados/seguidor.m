@@ -56,11 +56,11 @@ FTs_ap = tf(R_ap);
 R_lq = reg(ee,Klq,Ko_lq);
 FTs_lq = tf(R_lq);
 
-figure
-%lsim(-R_lq(3,3),u,t)
-title('Resposta do sistema ao seguidor senoidal - método LQ')
-xlabel('Tempo')
-ylabel('Velocidade angular (rad/s)')
+% figure
+% lsim(-R_lq(3,3),u,t)
+% title('Resposta do sistema ao seguidor senoidal - método LQ')
+% xlabel('Tempo')
+% ylabel('Velocidade angular (rad/s)')
 
 figure
 step(-R_lq(3,3))

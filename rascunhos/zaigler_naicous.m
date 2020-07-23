@@ -30,15 +30,15 @@ A = Minv*Atil;
 
 B = Minv*Btil;
 
-C = eye(6);
+C = [1, 0, 0, 0, 0, 0; 0, 0, 0, 1, 0, 0; 0, 0, 0, 0, 0, 1];
 
-D = zeros(6,3);
+D = zeros(3,3);
 
 ee = ss(A,B,C,D); % Espaço de Estados de malha aberta
 
 fts = tf(ee); % Mudança para FTs
 
-FT_T2_theta2dot = fts(6,3); % FT relacionando thetadot2 x T2
+FT_T2_theta2dot = fts(3,3); % FT relacionando thetadot2 x T2
 
 %%% Consertando FT1
 

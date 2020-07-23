@@ -30,16 +30,15 @@ Btil = [0, 0, 0; L, 0, 0; 0, 0, 0; 0, 1, 0; 0, 0, 0; 0, 0, 1];
 A = Minv*Atil;
 
 B = Minv*Btil;
+C = [1, 0, 0, 0, 0, 0; 0, 0, 0, 1, 0, 0; 0, 0, 0, 0, 0, 1];
 
-C = eye(6);
-
-D = zeros(6,3);
+D = zeros(3);
 
 ee = ss(A,B,C,D); % Espaco de Estados de malha aberta
 
 fts = tf(ee); % Mudanca para FTs
 
-FT_T2_theta2dot = fts(6,3); % FT relacionando thetadot2 x T2
+FT_T2_theta2dot = fts(3,3); % FT relacionando thetadot2 x T2
 
 %%% Consertando FT1
 
@@ -50,7 +49,7 @@ FT_T2_theta2dot = tf(num2,den2);
 
 %% Ganhos calculados no controlSystemDesigner
 
-C_P = 1.6025;
+C_P = 1.65;
 C_PI = tf([63.049 63.049*5.643], [1 0]);
 C_PID = tf([0.86076/200 0.86076*57.16 0.86076*908.6], [1 0]);
 
@@ -61,9 +60,8 @@ FTMF_PI = feedback(C_PI*FT_T2_theta2dot,1);
 FTMF_PID = feedback(C_PID*FT_T2_theta2dot,1);
 
 %% Plots
-opt = stepDataOptions('StepAmplitude',1);
-stepplot(FTMF_PI,FTMF_PID,opt)
-title({'Comparativo das respostas ao degrau - PID por LR'}, 'Fontsize', 16)
+stepplot(FTMF_PI,FTMF_PID)
+title({'Comparação das respostas ao degrau - PID e PI por LR'}, 'Fontsize', 16)
 xlabel('Tempo (s)')
 ylabel('Velocidade Angular (rad/s)')
 legend({'PI','PID'}, 'Fontsize', 14)
