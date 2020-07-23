@@ -62,3 +62,19 @@ C_Bode = tf([37.43 91.2395],[1 7.047e-08]);
 FTMF_Bode = feedback(C_Bode*FT_T2_theta2dot,1);
 figure
 step(FTMF_Bode)
+title('Resposta do sistema compensado ao degrau unitário')
+xlabel('Tempo')
+ylabel('Velocidade angular (rad/s)')
+
+%%% Avanço
+phi = 80; % graus
+alpha = 130.646;
+wn = 0.431; % rad/s
+z = wn/sqrt(alpha);
+p = z*alpha;
+C_av = alpha*tf([1 z],[1 p]);
+figure
+margin(C_av*FT_T2_theta2dot)
+hold
+bode(FT_T2_theta2dot)
+legend('Compensado','N\~{a}o compensado')
